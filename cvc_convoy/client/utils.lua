@@ -251,7 +251,7 @@ function CVC.Utils.GiveWeapon(weapon, ammo)
 end
 
 -- ═══════════════════════════════════════════════════════════════════════════
--- SANTÉ & ARMURE
+-- SANTÉ & ARMURE - MODIFIÉ
 -- ═══════════════════════════════════════════════════════════════════════════
 
 function CVC.Utils.HealPlayer()
@@ -260,15 +260,40 @@ function CVC.Utils.HealPlayer()
     SetPedArmour(ped, 100)
 end
 
+-- FONCTION CORRIGÉE : Réanimation complète du joueur
 function CVC.Utils.RevivePlayer()
     local ped = PlayerPedId()
+    local coords = GetEntityCoords(ped)
+    local heading = GetEntityHeading(ped)
     
+    -- Si le joueur est mort, le réanimer
     if IsEntityDead(ped) then
-        local coords = GetEntityCoords(ped)
-        NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, GetEntityHeading(ped), true, false)
+        -- Méthode 1 : NetworkResurrectLocalPlayer (recommandée pour FiveM)
+        NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
+        Wait(100)
     end
     
-    CVC.Utils.HealPlayer()
+    -- Si le joueur est ragdoll (au sol mais pas mort)
+    if IsPedRagdoll(ped) then
+        -- Forcer le joueur à se relever
+        SetPedToRagdoll(ped, 0, 0, 0, false, false, false)
+    end
+    
+    -- Réinitialiser l'état du ped
+    ClearPedTasksImmediately(ped)
+    ClearPedSecondaryTask(ped)
+    
+    -- Donner la santé et l'armure complètes
+    SetEntityHealth(ped, GetEntityMaxHealth(ped))
+    SetPedArmour(ped, 100)
+    
+    -- S'assurer que le joueur est debout et conscient
+    SetEntityInvincible(ped, false)
+    ResetPedMovementClipset(ped, 0)
+    ResetPedWeaponMovementClipset(ped)
+    ResetPedStrafeClipset(ped)
+    
+    CVC.Utils.Debug('Joueur réanimé avec succès')
 end
 
 -- ═══════════════════════════════════════════════════════════════════════════

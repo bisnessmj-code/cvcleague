@@ -96,7 +96,8 @@ RegisterCommand('givecallall', function(source, args, rawCommand)
 end, false)
 
 -- ═══════════════════════════════════════════════════════════════════════════
--- /cvctpall - Téléporter tous les joueurs en équipe
+-- /cvctpall - Téléporter tous les joueurs EN ÉQUIPE vers l'admin
+-- MODIFIÉ : Téléporte vers la position de l'admin
 -- ═══════════════════════════════════════════════════════════════════════════
 
 RegisterCommand('cvctpall', function(source, args, rawCommand)
@@ -106,26 +107,39 @@ RegisterCommand('cvctpall', function(source, args, rawCommand)
         return
     end
     
+    -- Récupérer la position de l'admin
+    local adminCoords = CVC.Utils.GetPlayerCoords(source)
+    if not adminCoords then
+        TriggerClientEvent('cvc:client:notify', source, 'Erreur: Impossible de récupérer votre position')
+        return
+    end
+    
+    -- Créer un vector4 avec heading
+    local ped = GetPlayerPed(source)
+    local heading = GetEntityHeading(ped)
+    local teleportCoords = vector4(adminCoords.x, adminCoords.y, adminCoords.z, heading)
+    
     local playersTeleported = 0
     local allPlayers = CVC.Players.GetAllInMode()
     
     for _, playerId in ipairs(allPlayers) do
         local team = CVC.Teams.GetPlayerTeam(playerId)
-        -- Ne téléporter que les joueurs qui ont une équipe
-        if team then
-            TriggerClientEvent('cvc:client:teleport', playerId, Config.Teleports.all)
+        -- Ne téléporter que les joueurs qui ont une équipe (et pas l'admin lui-même)
+        if team and playerId ~= source then
+            TriggerClientEvent('cvc:client:teleport', playerId, teleportCoords)
             playersTeleported = playersTeleported + 1
         end
     end
     
     TriggerClientEvent('cvc:client:notify', source, 
-        string.format('%d joueurs téléportés', playersTeleported))
+        string.format('%d joueurs téléportés vers vous', playersTeleported))
     
-    CVC.Utils.Debug('cvctpall: %d joueurs téléportés', playersTeleported)
+    CVC.Utils.Debug('cvctpall: %d joueurs téléportés vers l\'admin (ID: %d)', playersTeleported, source)
 end, false)
 
 -- ═══════════════════════════════════════════════════════════════════════════
--- /cvctpequipe [rouge/bleu] - Téléporter une équipe spécifique
+-- /cvctpequipe [rouge/bleu] - Téléporter une équipe spécifique vers l'admin
+-- MODIFIÉ : Téléporte l'équipe vers la position de l'admin
 -- ═══════════════════════════════════════════════════════════════════════════
 
 RegisterCommand('cvctpequipe', function(source, args, rawCommand)
@@ -150,20 +164,34 @@ RegisterCommand('cvctpequipe', function(source, args, rawCommand)
         return
     end
     
+    -- Récupérer la position de l'admin
+    local adminCoords = CVC.Utils.GetPlayerCoords(source)
+    if not adminCoords then
+        TriggerClientEvent('cvc:client:notify', source, 'Erreur: Impossible de récupérer votre position')
+        return
+    end
+    
+    -- Créer un vector4 avec heading
+    local ped = GetPlayerPed(source)
+    local heading = GetEntityHeading(ped)
+    local teleportCoords = vector4(adminCoords.x, adminCoords.y, adminCoords.z, heading)
+    
     local playersTeleported = 0
     local teamPlayers = CVC.Teams.GetTeamPlayers(team)
-    local teleportCoords = Config.Teleports[team]
     
     for _, playerId in ipairs(teamPlayers) do
-        TriggerClientEvent('cvc:client:teleport', playerId, teleportCoords)
-        playersTeleported = playersTeleported + 1
+        -- Ne pas téléporter l'admin lui-même s'il est dans l'équipe
+        if playerId ~= source then
+            TriggerClientEvent('cvc:client:teleport', playerId, teleportCoords)
+            playersTeleported = playersTeleported + 1
+        end
     end
     
     local teamLabel = team == 'red' and 'Rouge' or 'Bleue'
     TriggerClientEvent('cvc:client:notify', source, 
-        string.format('Équipe %s: %d joueurs téléportés', teamLabel, playersTeleported))
+        string.format('Équipe %s: %d joueurs téléportés vers vous', teamLabel, playersTeleported))
     
-    CVC.Utils.Debug('cvctpequipe: %d joueurs de l\'équipe %s téléportés', playersTeleported, team)
+    CVC.Utils.Debug('cvctpequipe: %d joueurs de l\'équipe %s téléportés vers l\'admin (ID: %d)', playersTeleported, team, source)
 end, false)
 
 -- ═══════════════════════════════════════════════════════════════════════════
@@ -333,9 +361,9 @@ CreateThread(function()
         { name = 'radius', help = 'Rayon en mètres (défaut: 50)' }
     })
     
-    TriggerClientEvent('chat:addSuggestion', -1, '/cvctpall', 'Téléporter tous les joueurs en équipe', {})
+    TriggerClientEvent('chat:addSuggestion', -1, '/cvctpall', 'Téléporter tous les joueurs en équipe vers vous', {})
     
-    TriggerClientEvent('chat:addSuggestion', -1, '/cvctpequipe', 'Téléporter une équipe spécifique', {
+    TriggerClientEvent('chat:addSuggestion', -1, '/cvctpequipe', 'Téléporter une équipe spécifique vers vous', {
         { name = 'équipe', help = 'rouge ou bleu' }
     })
     

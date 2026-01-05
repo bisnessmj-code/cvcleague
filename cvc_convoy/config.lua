@@ -13,15 +13,15 @@ Config = {}
 -- PARAMÈTRES GÉNÉRAUX
 -- ═══════════════════════════════════════════════════════════════════════════
 
-Config.Debug = false -- Activer les logs de debug
-Config.RoutingBucket = 100 -- ID du routing bucket pour l'instance
+Config.Debug = true -- Activer les logs de debug
+Config.RoutingBucket = 4000 -- ID du routing bucket pour l'instance
 
 -- ═══════════════════════════════════════════════════════════════════════════
 -- PED D'ENTRÉE
 -- ═══════════════════════════════════════════════════════════════════════════
 
 Config.PedLocation = {
-    coords = vector4(-2658.369141, -765.599976, 5.993408, 85.039368),
+    coords = vector4(-2189.485596, -360.448364, 13.104004, 294.803162),
     model = 's_m_y_blackops_01',
     frozen = true,
     invincible = true,
@@ -152,37 +152,194 @@ Config.GiveAllWeapon = {
 }
 
 -- ═══════════════════════════════════════════════════════════════════════════
--- VÉHICULES DU CONVOI
+-- VÉHICULES DU CONVOI - CONFIGURATION INDIVIDUELLE PAR VÉHICULE
 -- ═══════════════════════════════════════════════════════════════════════════
 
+--[[
+    NOUVELLE STRUCTURE :
+    Chaque véhicule est maintenant configuré individuellement avec :
+    - model : Modèle du véhicule
+    - color : Couleur primaire et secondaire
+    - coords : Position et rotation (vector4)
+    
+    EXEMPLE D'UTILISATION :
+    {
+        model = 'revolter',
+        color = {primary = 27, secondary = 27},
+        coords = vector4(x, y, z, heading)
+    }
+    
+    AVANTAGES :
+    - Chaque véhicule peut avoir un modèle différent
+    - Chaque véhicule peut avoir sa propre couleur
+    - Facile d'ajouter/retirer des véhicules
+    - Configuration claire et lisible
+]]
+
 Config.Vehicles = {
+    -- ═══════════════════════════════════════════════════════════════════════
+    -- ÉQUIPE ROUGE - 7 VÉHICULES
+    -- ═══════════════════════════════════════════════════════════════════════
     red = {
-        model = 'revolter',
-        color = {primary = 27, secondary = 27}, -- Rouge
-        spawns = {
-            vector4(1700.795654, 3262.536377, 40.586060, 283.464569),
-            vector4(1699.569214, 3265.767090, 40.602905, 286.299194),
-            vector4(1692.698853, 3264.065918, 40.400757, 286.299194),
-            vector4(1693.476929, 3261.032959, 40.367065, 283.464569),
-            vector4(1684.707642, 3262.021973, 40.265991, 289.133850),
-            vector4(1685.221924, 3259.147217, 40.333374, 286.299194),
-            vector4(1677.758301, 3258.210938, 40.232178, 283.464569)
+        -- Véhicule 1 (Leader)
+        {
+            model = 'jubilee',
+            color = {primary = 111, secondary = 111}, -- Rouge
+            coords = vector4(1700.795654, 3262.536377, 40.586060, 283.464569)
+        },
+        -- Véhicule 2
+        {
+            model = 'rebla',
+            color = {primary = 111, secondary = 111},
+            coords = vector4(1699.569214, 3265.767090, 40.602905, 286.299194)
+        },
+        -- Véhicule 3
+        {
+            model = 'revolter',
+            color = {primary = 111, secondary = 111},
+            coords = vector4(1692.698853, 3264.065918, 40.400757, 286.299194)
+        },
+        -- Véhicule 4
+        {
+            model = 'rhinehart',
+            color = {primary = 111, secondary = 111},
+            coords = vector4(1693.476929, 3261.032959, 40.367065, 283.464569)
+        },
+        -- Véhicule 5
+        {
+            model = 'buffalo',
+            color = {primary = 111, secondary = 111},
+            coords = vector4(1684.707642, 3262.021973, 40.265991, 289.133850)
+        },
+        -- Véhicule 6
+        {
+            model = 'felon',
+            color = {primary = 111, secondary = 111},
+            coords = vector4(1685.221924, 3259.147217, 40.333374, 286.299194)
+        },
+        -- Véhicule 7
+        {
+            model = 'jugular',
+            color = {primary = 111, secondary = 111},
+            coords = vector4(1677.758301, 3258.210938, 40.232178, 283.464569)
+        },
+        -- Véhicule 8
+        {
+            model = 'bf400',
+            color = {primary = 111, secondary = 111},
+            coords = vector4(1671.481323, 3256.153809, 40.164795, 291.968506)
         }
+        
     },
+    
+    -- ═══════════════════════════════════════════════════════════════════════
+    -- ÉQUIPE BLEUE - 7 VÉHICULES
+    -- ═══════════════════════════════════════════════════════════════════════
     blue = {
-        model = 'revolter',
-        color = {primary = 64, secondary = 64}, -- Bleu
-        spawns = {
-            vector4(1704.382446, 3248.083496, 40.484985, 289.133850),
-            vector4(1702.997803, 3251.156006, 40.468140, 283.464569),
-            vector4(1695.758301, 3249.230713, 40.417603, 286.299194),
-            vector4(1696.496704, 3246.065918, 40.417603, 286.299194),
-            vector4(1688.373657, 3247.054932, 40.350220, 286.299194),
-            vector4(1689.217529, 3244.312012, 40.350220, 289.133850),
-            vector4(1682.518677, 3243.903320, 40.299683, 283.464569)
+        -- Véhicule 1 (Leader)
+        {
+            model = 'jubilee',
+            color = {primary = 0, secondary = 0}, -- Bleu
+            coords = vector4(1704.382446, 3248.083496, 40.484985, 289.133850)
+        },
+        -- Véhicule 2
+        {
+            model = 'rebla',
+            color = {primary = 0, secondary = 0},
+            coords = vector4(1702.997803, 3251.156006, 40.468140, 283.464569)
+        },
+        -- Véhicule 3
+        {
+            model = 'revolter',
+            color = {primary = 0, secondary = 0},
+            coords = vector4(1695.758301, 3249.230713, 40.417603, 286.299194)
+        },
+        -- Véhicule 4
+        {
+            model = 'rhinehart',
+            color = {primary = 0, secondary = 0},
+            coords = vector4(1696.496704, 3246.065918, 40.417603, 286.299194)
+        },
+        -- Véhicule 5
+        {
+            model = 'buffalo',
+            color = {primary = 0, secondary = 0},
+            coords = vector4(1688.373657, 3247.054932, 40.350220, 286.299194)
+        },
+        -- Véhicule 6
+        {
+            model = 'felon',
+            color = {primary = 0, secondary = 0},
+            coords = vector4(1689.217529, 3244.312012, 40.350220, 289.133850)
+        },
+        -- Véhicule 7
+        {
+            model = 'jugular',
+            color = {primary = 0, secondary = 0},
+            coords = vector4(1682.518677, 3243.903320, 40.299683, 283.464569)
+        },
+        -- Véhicule 8
+        {
+            model = 'bf400',
+            color = {primary = 0, secondary = 0},
+            coords = vector4(1674.553833, 3241.859375, 40.181641, 289.13385)
         }
     }
 }
+
+--[[
+    EXEMPLE DE CONFIGURATION AVEC VÉHICULES VARIÉS :
+    
+    Config.Vehicles = {
+        red = {
+            -- Leader : Insurgent blindé
+            {
+                model = 'insurgent',
+                color = {primary = 27, secondary = 0},
+                coords = vector4(1700.795654, 3262.536377, 40.586060, 283.464569)
+            },
+            -- Escorte 1 : Revolter rapide
+            {
+                model = 'revolter',
+                color = {primary = 27, secondary = 27},
+                coords = vector4(1699.569214, 3265.767090, 40.602905, 286.299194)
+            },
+            -- Escorte 2 : Schafter V12 armé
+            {
+                model = 'schafter3',
+                color = {primary = 27, secondary = 0},
+                coords = vector4(1692.698853, 3264.065918, 40.400757, 286.299194)
+            },
+            -- Support : Rumpo blindé
+            {
+                model = 'rumpo3',
+                color = {primary = 27, secondary = 27},
+                coords = vector4(1693.476929, 3261.032959, 40.367065, 283.464569)
+            },
+            -- Arrière-garde : Sultan RS
+            {
+                model = 'sultanrs',
+                color = {primary = 27, secondary = 0},
+                coords = vector4(1684.707642, 3262.021973, 40.265991, 289.133850)
+            },
+            -- Éclaireur : Kuruma blindé
+            {
+                model = 'kuruma2',
+                color = {primary = 27, secondary = 27},
+                coords = vector4(1685.221924, 3259.147217, 40.333374, 286.299194)
+            },
+            -- Reconnaissance : Baller
+            {
+                model = 'baller',
+                color = {primary = 27, secondary = 0},
+                coords = vector4(1677.758301, 3258.210938, 40.232178, 283.464569)
+            }
+        },
+        blue = {
+            -- ... même structure pour l'équipe bleue
+        }
+    }
+]]
 
 -- ═══════════════════════════════════════════════════════════════════════════
 -- PERMISSIONS & GROUPES
