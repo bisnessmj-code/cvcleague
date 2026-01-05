@@ -1,0 +1,249 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONVOI CONTRE CONVOI - STYLES NUI
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: transparent;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTAINER PRINCIPAL
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#announcement-container {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* Positions */
+#announcement-container.position-top {
+    top: 50px;
+}
+
+#announcement-container.position-center {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#announcement-container.position-bottom {
+    bottom: 100px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOX D'ANNONCE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.announcement-box {
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(40, 40, 60, 0.95) 100%);
+    border: 2px solid rgba(255, 200, 0, 0.8);
+    border-radius: 12px;
+    padding: 20px 40px;
+    min-width: 400px;
+    max-width: 700px;
+    box-shadow: 
+        0 0 30px rgba(255, 200, 0, 0.3),
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: slideIn 0.5s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.announcement-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 200, 0, 0.3);
+}
+
+.announcement-icon {
+    font-size: 24px;
+    animation: pulse 2s infinite;
+}
+
+.announcement-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #ffc800;
+    text-shadow: 0 0 10px rgba(255, 200, 0, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTENU
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.announcement-content {
+    text-align: center;
+    padding: 10px 0;
+}
+
+#announcement-text {
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 1.5;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.announcement-footer {
+    margin-top: 15px;
+    padding-top: 10px;
+}
+
+.announcement-line {
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 200, 0, 0.8) 20%, 
+        rgba(255, 200, 0, 0.8) 80%, 
+        transparent 100%
+    );
+    border-radius: 2px;
+    animation: lineGlow 2s infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes lineGlow {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ÉTATS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.hidden {
+    display: none !important;
+}
+
+.fade-out {
+    animation: slideOut 0.5s ease-in forwards;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media screen and (max-width: 800px) {
+    .announcement-box {
+        min-width: 300px;
+        max-width: 90%;
+        padding: 15px 25px;
+    }
+    
+    .announcement-title {
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+    
+    #announcement-text {
+        font-size: 16px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THÈMES ÉQUIPES (optionnel)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.announcement-box.team-red {
+    border-color: rgba(255, 50, 50, 0.8);
+    box-shadow: 
+        0 0 30px rgba(255, 50, 50, 0.3),
+        0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.announcement-box.team-red .announcement-title {
+    color: #ff3232;
+}
+
+.announcement-box.team-red .announcement-line {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 50, 50, 0.8) 20%, 
+        rgba(255, 50, 50, 0.8) 80%, 
+        transparent 100%
+    );
+}
+
+.announcement-box.team-blue {
+    border-color: rgba(50, 150, 255, 0.8);
+    box-shadow: 
+        0 0 30px rgba(50, 150, 255, 0.3),
+        0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.announcement-box.team-blue .announcement-title {
+    color: #3296ff;
+}
+
+.announcement-box.team-blue .announcement-line {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(50, 150, 255, 0.8) 20%, 
+        rgba(50, 150, 255, 0.8) 80%, 
+        transparent 100%
+    );
+}
